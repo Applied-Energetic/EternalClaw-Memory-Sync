@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,8 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background-color: #050505;
@@ -33,23 +35,27 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
+
         .hero-text {
             background: linear-gradient(to right, #e5e5e5, #9ca3af);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .code-block {
             background: #111;
             border: 1px solid #333;
             border-radius: 8px;
             font-family: 'Fira Code', monospace;
         }
+
         .glow-effect {
             box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
         }
+
         .grid-bg {
             background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 30px 30px;
             opacity: 0.1;
             position: absolute;
@@ -61,6 +67,7 @@
         }
     </style>
 </head>
+
 <body class="relative">
 
     <!-- Navbar -->
@@ -72,37 +79,46 @@
             <div class="space-x-8 hidden md:block text-sm font-medium text-gray-400">
                 <a href="#features" class="hover:text-white transition" data-i18n="nav_features">Features</a>
                 <a href="#security" class="hover:text-white transition" data-i18n="nav_security">Security</a>
-                <a href="#how-it-works" class="hover:text-white transition" data-i18n="nav_how_it_works">How it Works</a>
+                <a href="#how-it-works" class="hover:text-white transition" data-i18n="nav_how_it_works">How it
+                    Works</a>
             </div>
-            <button id="lang-switch" class="text-sm font-medium text-gray-400 hover:text-white transition uppercase border border-gray-700 px-3 py-1 rounded">
+            <button id="lang-switch"
+                class="text-sm font-medium text-gray-400 hover:text-white transition uppercase border border-gray-700 px-3 py-1 rounded">
                 EN/中
             </button>
-            <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" class="bg-white text-black px-5 py-2 rounded-full font-semibold hover:bg-gray-200 transition text-sm">
+            <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync"
+                class="bg-white text-black px-5 py-2 rounded-full font-semibold hover:bg-gray-200 transition text-sm">
                 GitHub
             </a>
         </div>
     </nav>
-    
+
     <div class="grid-bg"></div>
 
     <!-- Hero Section -->
     <header class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-gray-900 border border-gray-800 text-brand-accent text-xs font-mono" data-i18n="hero_badge">
+        <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-gray-900 border border-gray-800 text-brand-accent text-xs font-mono"
+            data-i18n="hero_badge">
             v1.0 Public Beta Now Available
         </div>
         <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight text-white">
             <span data-i18n="hero_title_1">Give Your AI</span> <br />
-            <span data-i18n="hero_title_2">An</span> <span class="text-brand-accent" data-i18n="hero_title_accent">Eternal Soul</span>.
+            <span data-i18n="hero_title_2">An</span> <span class="text-brand-accent"
+                data-i18n="hero_title_accent">Eternal Soul</span>.
         </h1>
         <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed" data-i18n="hero_desc">
             The secure, encrypted memory synchronization layer for Openclaw. <br>
             Backup your agent's personality, memories, and soul — forever.
         </p>
         <div class="flex flex-col md:flex-row gap-4 justify-center">
-            <a href="https://clawhub.ai/applied-energetic/eternalmemory-sync" class="bg-brand-accent text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-400 transition shadow-[0_0_20px_rgba(0,255,157,0.3)]" data-i18n="btn_get_started">
+            <a href="https://clawhub.ai/applied-energetic/eternalmemory-sync"
+                class="bg-brand-accent text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-400 transition shadow-[0_0_20px_rgba(0,255,157,0.3)]"
+                data-i18n="btn_get_started">
                 Download Skill
             </a>
-            <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" class="bg-transparent border border-gray-700 text-white px-8 py-4 rounded-lg font-medium text-lg hover:border-gray-500 transition" data-i18n="btn_read_docs">
+            <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync"
+                class="bg-transparent border border-gray-700 text-white px-8 py-4 rounded-lg font-medium text-lg hover:border-gray-500 transition"
+                data-i18n="btn_read_docs">
                 GitHub Repo
             </a>
         </div>
@@ -118,44 +134,54 @@
             </div>
             <div class="font-mono text-sm space-y-2">
                 <p class="text-gray-400">$ openclaw chat</p>
-                <p class="text-blue-400">User: <span class="text-white" data-i18n="demo_user_cmd">Backup my memories, password "secret123"</span></p>
-                <p class="text-brand-accent">Agent: <span class="text-white" data-i18n="demo_agent_run">Running `memory-sync` skill...</span></p>
+                <p class="text-blue-400">User: <span class="text-white" data-i18n="demo_user_cmd">Backup my memories,
+                        password "secret123"</span></p>
+                <p class="text-brand-accent">Agent: <span class="text-white" data-i18n="demo_agent_run">Running
+                        `memory-sync` skill...</span></p>
                 <div class="pl-4 border-l-2 border-gray-700 my-2 text-gray-500">
                     <p>> Packing: Agent.md, Soul.md, memory.md...</p>
                     <p>> Encrypting with AES-256-GCM...</p>
                     <p>> Uploading to Vercel Cloud...</p>
                 </div>
-                <p class="text-brand-accent">Agent: <span class="text-white" data-i18n="demo_agent_done">Done! Your soul is safe. Backup ID: #8X92A</span></p>
+                <p class="text-brand-accent">Agent: <span class="text-white" data-i18n="demo_agent_done">Done! Your soul
+                        is safe. Backup ID: #8X92A</span></p>
             </div>
         </div>
     </section>
 
     <!-- Features Grid -->
     <section id="features" class="max-w-7xl mx-auto px-6 py-24 border-t border-gray-900">
-        <h2 class="text-3xl font-bold text-white mb-16 text-center" data-i18n="features_title">Why Choose EternalClawMemory?</h2>
+        <h2 class="text-3xl font-bold text-white mb-16 text-center" data-i18n="features_title">Why Choose
+            EternalClawMemory?</h2>
         <div class="grid md:grid-cols-3 gap-8">
             <!-- Feature 1 -->
-            <div class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
+            <div
+                class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
                 <div class="text-4xl mb-6">🛡️</div>
                 <h3 class="text-xl font-bold text-white mb-4" data-i18n="feat1_title">Zero-Trust Security</h3>
                 <p class="text-gray-400 leading-relaxed" data-i18n="feat1_desc">
-                    We use military-grade <strong>AES-256-GCM</strong> encryption. Your password never leaves your device. Even we cannot read your agent's memories.
+                    We use military-grade <strong>AES-256-GCM</strong> encryption. Your password never leaves your
+                    device. Even we cannot read your agent's memories.
                 </p>
             </div>
             <!-- Feature 2 -->
-            <div class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
+            <div
+                class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
                 <div class="text-4xl mb-6">⚡</div>
                 <h3 class="text-xl font-bold text-white mb-4" data-i18n="feat2_title">Instant Sync</h3>
                 <p class="text-gray-400 leading-relaxed" data-i18n="feat2_desc">
-                    Migrating to a new PC? Just reinstall Openclaw, run the restore command, and your agent is back exactly as you left them.
+                    Migrating to a new PC? Just reinstall Openclaw, run the restore command, and your agent is back
+                    exactly as you left them.
                 </p>
             </div>
             <!-- Feature 3 -->
-            <div class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
+            <div
+                class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
                 <div class="text-4xl mb-6">🧠</div>
                 <h3 class="text-xl font-bold text-white mb-4" data-i18n="feat3_title">Native Skill</h3>
                 <p class="text-gray-400 leading-relaxed" data-i18n="feat3_desc">
-                    Integrated directly into Openclaw as a Skill. No complex CLI commands needed—just talk to your agent naturally.
+                    Integrated directly into Openclaw as a Skill. No complex CLI commands needed—just talk to your agent
+                    naturally.
                 </p>
             </div>
         </div>
@@ -168,17 +194,20 @@
             <div class="flex flex-col md:flex-row justify-center items-center gap-8 text-center md:text-left">
                 <div class="flex-1 max-w-sm">
                     <div class="text-brand-accent font-mono text-xl mb-2" data-i18n="how_step1_title">01. Pack</div>
-                    <p class="text-gray-400" data-i18n="how_step1_desc">Local script gathers your markdown memory files into a JSON bundle.</p>
+                    <p class="text-gray-400" data-i18n="how_step1_desc">Local script gathers your markdown memory files
+                        into a JSON bundle.</p>
                 </div>
                 <div class="text-gray-600 text-2xl">→</div>
                 <div class="flex-1 max-w-sm">
                     <div class="text-brand-accent font-mono text-xl mb-2" data-i18n="how_step2_title">02. Encrypt</div>
-                    <p class="text-gray-400" data-i18n="how_step2_desc">Bundle is encrypted with your password using Argon2id & AES-256.</p>
+                    <p class="text-gray-400" data-i18n="how_step2_desc">Bundle is encrypted with your password using
+                        Argon2id & AES-256.</p>
                 </div>
                 <div class="text-gray-600 text-2xl">→</div>
                 <div class="flex-1 max-w-sm">
                     <div class="text-brand-accent font-mono text-xl mb-2" data-i18n="how_step3_title">03. Upload</div>
-                    <p class="text-gray-400" data-i18n="how_step3_desc">The encrypted blob is securely uploaded to Vercel/GitHub storage.</p>
+                    <p class="text-gray-400" data-i18n="how_step3_desc">The encrypted blob is securely uploaded to
+                        Vercel/GitHub storage.</p>
                 </div>
             </div>
         </div>
@@ -275,4 +304,5 @@
         });
     </script>
 </body>
+
 </html>
