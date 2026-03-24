@@ -7,6 +7,16 @@
 1. **端到端加密**: 记忆内容在上传前即被加密（AES-256 + Argon2id），仅持有密码者可解密，云端管理员也无法查看。
 2. **Openclaw Skill**: 提供 `memory-sync` Skill，让智能体能够通过自然语言指令自主完成记忆的备份与恢复。
 
+## Vercel Deployment
+
+To deploy this project on Vercel:
+
+1.  Connect your GitHub repository.
+2.  **Crucial Step**: In the project settings, set the **Root Directory** to `web/landing`.
+    *   Go to **Settings** -> **General** -> **Root Directory**.
+    *   Click **Edit** and enter `web/landing`.
+3.  Deploy.
+
 ---
 
 ## 快速导航
