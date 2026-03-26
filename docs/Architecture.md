@@ -1,97 +1,128 @@
-# EternalClawMemory - 架构设计文档
+# 架构设计
 
-## 1. 项目概述
-本项目旨在为 Openclaw 提供**永久记忆存储与安全同步**方案。确保在系统重装、迁移或意外挂掉时，能够通过**加密**的方式快速恢复关键记忆文件（如 `Agent.md`, `memory.md`, `Soul.md` 等）。核心机制包括本地 JSON 打包、高强度加密以及便捷的 Skill 集成。
+[English Version](Architecture.en.md)
 
-## 2. 系统架构
+## 1. 目标
 
-### 2.1 整体架构图
+EternalClawMemory 的目标是在设备迁移、系统重装、工作区重建之后，仍然可以恢复 Openclaw 的长期记忆。
+
+架构需要同时满足两件事：
+
+1. 对用户来说备份、同步、恢复足够方便
+2. 当启用加密时，云端尽量无法看到任何记忆明文
+
+## 2. 三层结构
+
+### 本地客户端层
+
+负责：
+
+- 读取 `Agent.md`、`memory.md`、`Soul.md`
+- 打包成结构化 JSON
+- 在本地执行可选加密
+- 在本地执行解密
+- 把内容恢复回工作区
+
+### 云服务层
+
+计划部署在 Vercel，负责：
+
+- 用户注册与登录
+- 会话与授权检查
+- 元数据管理
+- 密文记录上传与下载
+- 每个账号最多 3 个 Agent 槽位的管理
+
+### 存储层
+
+负责保存：
+
+- 用户、会话、槽位和元数据
+- 加密后的 blob
+- 后续可选的审计日志和同步事件
+
+## 3. 数据流
 
 ```mermaid
 graph TD
-    subgraph "Openclaw Local Environment"
-        Op[Openclaw Agent]
-        Files[Memory Files<br/>(Agent.md, Soul.md...)]
-        Skill[Memory Sync Skill]
-        
-        subgraph "Secure Core (Python)"
-            Packer[JSON Packer]
-            Crypto[AES-256 Encrypt/Decrypt]
-            Unpacker[JSON Unpacker]
-        end
-        
-        Op -->|Uses| Skill
-        Skill -->|Invokes| Packer
-        Files -->|Read| Packer
-        Packer -->|JSON| Crypto
-        Crypto -->|Encrypted Blob| LocalStorage[Local File<br/>.blob]
-        Crypto -->|Decrypted JSON| Unpacker
-        Heading[Cloud URL] -->|Download| Crypto
-        Unpacker -->|Write| Files
-    end
-
-    subgraph "Cloud Service (Vercel)"
-        API_Backup[POST /api/backup]
-        API_Restore[GET /api/restore]
-    end
-
-    subgraph "Storage Layer"
-        GitHub[(GitHub Private Repo)]
-        BlobStore[Vercel Blob (Optional)]
-    end
-
-    %% Data Flow
-    LocalStorage -.->|Manual/Auto Upload| API_Backup
-    API_Backup -->|Store Encrypted| GitHub
-    GitHub -->|Serve Encrypted| API_Restore
+    A["Openclaw / User"] --> B["Local scripts or Skill"]
+    B --> C["Read memory files"]
+    C --> D["Package to JSON"]
+    D --> E{"Encrypt locally?"}
+    E -->|Yes| F["Argon2id + AES-256-GCM"]
+    E -->|No| G["Plain export JSON"]
+    F --> H["Encrypted blob"]
+    G --> I["Local backup file"]
+    H --> J["Upload ciphertext to Vercel"]
+    J --> K["Blob storage"]
+    J --> L["Metadata in database"]
+    K --> M["Download ciphertext"]
+    L --> M
+    M --> N["Local decrypt with user password"]
+    N --> O["Restore files"]
 ```
 
-## 3. 核心机制
+## 4. 当前已实现模块
 
-### 3.1 打包与数据结构 (packing)
-所有记忆文件被打包为一个单一的 JSON 对象。
-```json
-{
-  "timestamp": "2026-03-23T10:00:00Z",
-  "version": "1.0",
-  "files": {
-    "Agent.md": "Raw Content...",
-    "Soul.md": "Raw Content..."
-  }
-}
-```
+- `scripts/crypto_utils.py`: 加密核心
+- `scripts/backup_local.py`: 本地明文导出
+- `scripts/backup_secure.py`: 本地加密导出
+- `scripts/restore_local.py`: 本地明文恢复
+- `scripts/restore_secure.py`: 通过 URL 下载并本地解密恢复
+- `skills/memory-sync`: Openclaw Skill 封装
 
-### 3.2 安全加密层 (Security Layer)
-为了保证数据在云端存储和传输过程中的绝对安全，采用以下加密方案：
-- **算法**: AES-256-GCM (Galois/Counter Mode) 提供保密性和完整性校验。
-- **密钥派生**: 使用 **Argon2id** 算法将用户输入的密码转换为 32 字节的加密密钥。
-- **盐值 (Salt) 与 Nonce**: 随机生成并在密文中携带，防止彩虹表攻击和重放攻击。
-- **流程**:
-  - **加密**: `Raw JSON` -> `Compress (Optional)` -> `Encrypt (Password)` -> `Base64 Blob`.
-  - **解密**: `Base64 Blob` -> `Decrypt (Password)` -> `Verify Identity` -> `Restore Files`.
+## 5. 规划中的云架构
 
-**隐私承诺**: 即使是云端管理员（Vercel/GitHub 拥有者）也无法查看记忆内容，因为私钥（密码）仅掌握在用户手中。
+### Web 层
 
-### 3.3 Skill 集成 (Memory Sync Skill)
-为了方便 Openclaw 直接调用，我们封装了 `memory-sync` Skill。
-- **功能**:
-  1. **Get Memory**: `python scripts/restore_secure.py --url <URL> --password <PWD>`
-  2. **Push Memory**: `python scripts/backup_secure.py --password <PWD>`
-- **优势**: Openclaw 可以理解用户的自然语言指令（如“从我的云端备份恢复记忆”），并自动调用底层加密脚本执行操作。
+将从静态落地页逐步演进为：
 
-## 4. 部署方案
+- 首页
+- Getting Started 文档页
+- 登录 / 注册页
+- 用户 Dashboard
+- Agent 槽位管理页面
+- 记忆上传、选择与恢复页面
 
-### 方案 A: 本地安全备份 (Local Secure)
-- 用户手动运行脚本，生成加密的 `.blob` 文件。
-- 用户自行保存该文件（U盘、NAS、网盘）。
+### 后端层
 
-### 方案 B: 云端托管 (Cloud Managed)
-- **前端**: Next.js 提供的 Web UI，允许用户上传 `.blob` 文件或查看历史版本。
-- **后端**: Vercel Serverless Functions 接收加密数据并存储至 GitHub。
-- **恢复**: 用户在 Openclaw 中提供文件的直接链接 (Raw URL)，Agent 自动下载并解密。
+预期提供：
 
-## 5. 技术栈
-- **Core Logic**: Python 3.x (`cryptography`, `requests`)
-- **Integration**: VS Code Skills (Markdown defined)
-- **Cloud**: Next.js (App Router), Vercel
-- **Storage**: GitHub API / Vercel Blob
+- 认证接口
+- 槽位管理接口
+- 密文上传、列出、下载接口
+- 安全验证和访问控制
+
+### 数据库层
+
+核心实体：
+
+- `users`
+- `sessions`
+- `agent_slots`
+- `memory_records`
+- `memory_versions`
+- `sync_events`
+
+## 6. 安全边界
+
+### 云端可以知道
+
+- 用户身份
+- 槽位归属
+- blob 地址
+- 上传时间
+- 文件大小和标签等元数据
+
+### 云端不应该知道
+
+- 记忆明文
+- 本地解密后的文件内容
+- 用户的本地解密密码明文
+
+## 7. 产品约束
+
+- 每个账号最多同步 3 个 Agent
+- 云端主要存储密文，而不是明文
+- 本地设备是解密信任根
+- 网站文档、README 和 Skill 说明必须保持一致

@@ -1,310 +1,321 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EternalClawMemory | Give Your AI an Eternal Soul</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            gold: '#FFD700',
-                            dark: '#0a0a0a',
-                            light: '#e5e5e5',
-                            accent: '#00ff9d'
-                        }
-                    },
-                    fontFamily: {
-                        mono: ['"Fira Code"', 'monospace'],
-                        sans: ['Inter', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap"
-        rel="stylesheet">
-    <!-- Vercel Speed Insights & Analytics -->
-    <script defer src="/_vercel/insights/script.js"></script>
-    <style>
-        body {
-            background-color: #050505;
-            color: #e5e5e5;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
-
-        .hero-text {
-            background: linear-gradient(to right, #e5e5e5, #9ca3af);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .code-block {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            font-family: 'Fira Code', monospace;
-        }
-
-        .glow-effect {
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.1);
-        }
-
-        .grid-bg {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.1;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EternalClawMemory | Openclaw 记忆同步</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script defer src="/_vercel/insights/script.js"></script>
+  <style>
+    :root {
+      --bg: #081019;
+      --panel: rgba(9, 18, 28, 0.86);
+      --line: rgba(126, 160, 191, 0.18);
+      --text: #eef6ff;
+      --muted: #96acc1;
+      --accent: #7bf0c8;
+      --accent-2: #ffc266;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Noto Sans SC", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(123, 240, 200, 0.16), transparent 30%),
+        radial-gradient(circle at 88% 10%, rgba(255, 194, 102, 0.16), transparent 24%),
+        linear-gradient(180deg, #071018 0%, #0a1521 48%, #071018 100%);
+    }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(1160px, calc(100vw - 32px)); margin: 0 auto; }
+    .mono { font-family: "JetBrains Mono", monospace; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.28);
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 0 14px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(123, 240, 200, 0.28);
+      color: var(--accent);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      padding: 18px 0 42px;
+    }
+    .hero-main { padding: 34px; }
+    .pill {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(123, 240, 200, 0.24);
+      color: var(--accent);
+      font-size: 13px;
+      background: rgba(8, 22, 34, 0.72);
+    }
+    .headline {
+      margin: 16px 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+    .accent { color: var(--accent); }
+    .lede {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.8;
+      max-width: 760px;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #b7ffe3);
+      color: #06211b;
+    }
+    .btn-secondary {
+      border: 1px solid rgba(150, 172, 193, 0.26);
+      background: rgba(8, 17, 27, 0.46);
+    }
+    .stack { display: grid; gap: 18px; }
+    .mini-card, .feature, .step, .link-card, .terminal { padding: 22px; }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 10px;
+    }
+    .section { padding: 18px 0 50px; }
+    .section-title {
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.08;
+    }
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 760px;
+    }
+    .features, .steps, .links-grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .features, .links-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .feature p, .step p, .link-card p, .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .feature h3, .step h3, .link-card h3, .mini-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .terminal-header { display: flex; gap: 10px; margin-bottom: 16px; }
+    .dot { width: 10px; height: 10px; border-radius: 999px; }
+    .terminal pre {
+      margin: 0;
+      white-space: pre-wrap;
+      color: #d9e7f5;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+    footer {
+      padding: 18px 0 42px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    @media (max-width: 960px) {
+      .hero, .features, .steps, .links-grid { grid-template-columns: 1fr; }
+      .nav { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
-
-<body class="relative">
-
-    <!-- Navbar -->
-    <nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-bold font-mono tracking-tighter text-white">
-            ECM<span class="text-brand-accent">.</span>
-        </div>
-        <div class="flex items-center space-x-8">
-            <div class="space-x-8 hidden md:block text-sm font-medium text-gray-400">
-                <a href="#features" class="hover:text-white transition" data-i18n="nav_features">Features</a>
-                <a href="#security" class="hover:text-white transition" data-i18n="nav_security">Security</a>
-                <a href="#how-it-works" class="hover:text-white transition" data-i18n="nav_how_it_works">How it
-                    Works</a>
-            </div>
-            <button id="lang-switch"
-                class="text-sm font-medium text-gray-400 hover:text-white transition uppercase border border-gray-700 px-3 py-1 rounded">
-                EN/中
-            </button>
-            <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync"
-                class="bg-white text-black px-5 py-2 rounded-full font-semibold hover:bg-gray-200 transition text-sm">
-                GitHub
-            </a>
-        </div>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div>
+        <div class="mono" style="font-size:14px;color:var(--accent);">ECM // 中文默认</div>
+        <div style="font-size:28px;font-weight:800;margin-top:4px;">EternalClawMemory</div>
+      </div>
+      <div class="nav-links">
+        <a href="#features">核心能力</a>
+        <a href="#workflow">使用流程</a>
+        <a href="/getting-started">入门文档</a>
+        <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="lang-switch mono" href="/en">EN</a>
+      </div>
     </nav>
 
-    <div class="grid-bg"></div>
-
-    <!-- Hero Section -->
-    <header class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block px-4 py-1.5 mb-6 rounded-full bg-gray-900 border border-gray-800 text-brand-accent text-xs font-mono"
-            data-i18n="hero_badge">
-            v1.0 Public Beta Now Available
-        </div>
-        <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight text-white">
-            <span data-i18n="hero_title_1">Give Your AI</span> <br />
-            <span data-i18n="hero_title_2">An</span> <span class="text-brand-accent"
-                data-i18n="hero_title_accent">Eternal Soul</span>.
-        </h1>
-        <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed" data-i18n="hero_desc">
-            The secure, encrypted memory synchronization layer for Openclaw. <br>
-            Backup your agent's personality, memories, and soul — forever.
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="pill mono">Vercel 已部署 · ClawHub 已发布 · 云后端设计进行中</div>
+        <h1 class="headline">把 Openclaw 的记忆从<span class="accent">易失上下文</span>变成可备份、可同步、可恢复的长期资产</h1>
+        <p class="lede">
+          EternalClawMemory 为 Openclaw 提供本地导出、可选加密、远程恢复与后续云端同步能力。
+          设计边界很明确：加密与解密在本地完成，云端只保存密文和必要元数据。
         </p>
-        <div class="flex flex-col md:flex-row gap-4 justify-center">
-            <a href="https://clawhub.ai/applied-energetic/eternalmemory-sync"
-                class="bg-brand-accent text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-400 transition shadow-[0_0_20px_rgba(0,255,157,0.3)]"
-                data-i18n="btn_get_started">
-                Download Skill
-            </a>
-            <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync"
-                class="bg-transparent border border-gray-700 text-white px-8 py-4 rounded-lg font-medium text-lg hover:border-gray-500 transition"
-                data-i18n="btn_read_docs">
-                GitHub Repo
-            </a>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/getting-started">进入 Getting Started</a>
+          <a class="btn btn-secondary" href="https://clawhub.ai/applied-energetic/eternalmemory-sync" target="_blank" rel="noreferrer">打开 ClawHub Skill</a>
+          <a class="btn btn-secondary" href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">查看 GitHub 仓库</a>
         </div>
-    </header>
+      </div>
 
-    <!-- Terminal Demo -->
-    <section class="max-w-4xl mx-auto px-6 mb-24">
-        <div class="code-block p-4 shadow-2xl relative overflow-hidden group">
-            <div class="flex gap-2 mb-4">
-                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <div class="font-mono text-sm space-y-2">
-                <p class="text-gray-400">$ openclaw chat</p>
-                <p class="text-blue-400">User: <span class="text-white" data-i18n="demo_user_cmd">Backup my memories,
-                        password "secret123"</span></p>
-                <p class="text-brand-accent">Agent: <span class="text-white" data-i18n="demo_agent_run">Running
-                        `memory-sync` skill...</span></p>
-                <div class="pl-4 border-l-2 border-gray-700 my-2 text-gray-500">
-                    <p>> Packing: Agent.md, Soul.md, memory.md...</p>
-                    <p>> Encrypting with AES-256-GCM...</p>
-                    <p>> Uploading to Vercel Cloud...</p>
-                </div>
-                <p class="text-brand-accent">Agent: <span class="text-white" data-i18n="demo_agent_done">Done! Your soul
-                        is safe. Backup ID: #8X92A</span></p>
-            </div>
+      <div class="stack">
+        <div class="panel mini-card">
+          <div class="eyebrow mono">Current State</div>
+          <h3>本地安全核心已经可用</h3>
+          <p>当前仓库已经支持本地导出、加密导出、URL 恢复和 Skill 初版。现在开始补齐账号系统、数据库结构和云端密文管理方案。</p>
         </div>
+        <div class="panel mini-card">
+          <div class="eyebrow mono">Next Step</div>
+          <h3>账号化的密文同步</h3>
+          <p>后续用户可以在网站注册账号，管理最多 3 个 Agent 槽位，上传密文并在其他设备选择恢复。网站做管理，密钥留在本地。</p>
+        </div>
+        <div class="panel terminal">
+          <div class="terminal-header">
+            <div class="dot" style="background:#ff6b6b;"></div>
+            <div class="dot" style="background:#ffd166;"></div>
+            <div class="dot" style="background:#7bf0c8;"></div>
+          </div>
+          <pre class="mono">$ python scripts/backup_secure.py --password "secret123"
+Packing files...
+Encrypted backup saved to: backups/backup_secure_20260326_101500.blob
+
+$ python scripts/restore_secure.py --url "https://example.com/backup.blob" --password "secret123"
+Downloading memory blob...
+Decrypting data...
+Restoring Agent.md / memory.md / Soul.md</pre>
+        </div>
+      </div>
     </section>
 
-    <!-- Features Grid -->
-    <section id="features" class="max-w-7xl mx-auto px-6 py-24 border-t border-gray-900">
-        <h2 class="text-3xl font-bold text-white mb-16 text-center" data-i18n="features_title">Why Choose
-            EternalClawMemory?</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <!-- Feature 1 -->
-            <div
-                class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
-                <div class="text-4xl mb-6">🛡️</div>
-                <h3 class="text-xl font-bold text-white mb-4" data-i18n="feat1_title">Zero-Trust Security</h3>
-                <p class="text-gray-400 leading-relaxed" data-i18n="feat1_desc">
-                    We use military-grade <strong>AES-256-GCM</strong> encryption. Your password never leaves your
-                    device. Even we cannot read your agent's memories.
-                </p>
-            </div>
-            <!-- Feature 2 -->
-            <div
-                class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
-                <div class="text-4xl mb-6">⚡</div>
-                <h3 class="text-xl font-bold text-white mb-4" data-i18n="feat2_title">Instant Sync</h3>
-                <p class="text-gray-400 leading-relaxed" data-i18n="feat2_desc">
-                    Migrating to a new PC? Just reinstall Openclaw, run the restore command, and your agent is back
-                    exactly as you left them.
-                </p>
-            </div>
-            <!-- Feature 3 -->
-            <div
-                class="p-8 bg-gray-900/50 rounded-2xl border border-gray-800 hover:border-brand-accent/50 transition duration-300">
-                <div class="text-4xl mb-6">🧠</div>
-                <h3 class="text-xl font-bold text-white mb-4" data-i18n="feat3_title">Native Skill</h3>
-                <p class="text-gray-400 leading-relaxed" data-i18n="feat3_desc">
-                    Integrated directly into Openclaw as a Skill. No complex CLI commands needed—just talk to your agent
-                    naturally.
-                </p>
-            </div>
+    <section class="section" id="features">
+      <div class="section-title mono">Core Capabilities</div>
+      <h2 class="section-heading">围绕“本地可信、云端存密文”搭建的三条主线</h2>
+      <p class="section-copy">这个项目不只是做一个备份脚本，而是在为长期的账号化记忆同步打地基。下面三项能力是整个产品的骨架。</p>
+      <div class="features">
+        <div class="panel feature">
+          <div class="eyebrow mono">01</div>
+          <h3>本地导出</h3>
+          <p>支持导出成 JSON，也支持加密成 `.blob`。在没有云功能时，用户也能先稳定保留自己的长期记忆。</p>
         </div>
+        <div class="panel feature">
+          <div class="eyebrow mono">02</div>
+          <h3>本地加解密</h3>
+          <p>加密和解密都发生在用户设备。后续即使有网站和数据库，这个边界也不会改变。</p>
+        </div>
+        <div class="panel feature">
+          <div class="eyebrow mono">03</div>
+          <h3>云端密文管理</h3>
+          <p>Vercel 后端将负责注册、登录、槽位、记录和权限，但只保存密文和元数据，不保存记忆明文。</p>
+        </div>
+      </div>
     </section>
 
-    <!-- How it Works -->
-    <section id="how-it-works" class="bg-gray-900 py-24">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-white mb-16 text-center" data-i18n="how_title">How It Works</h2>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-8 text-center md:text-left">
-                <div class="flex-1 max-w-sm">
-                    <div class="text-brand-accent font-mono text-xl mb-2" data-i18n="how_step1_title">01. Pack</div>
-                    <p class="text-gray-400" data-i18n="how_step1_desc">Local script gathers your markdown memory files
-                        into a JSON bundle.</p>
-                </div>
-                <div class="text-gray-600 text-2xl">→</div>
-                <div class="flex-1 max-w-sm">
-                    <div class="text-brand-accent font-mono text-xl mb-2" data-i18n="how_step2_title">02. Encrypt</div>
-                    <p class="text-gray-400" data-i18n="how_step2_desc">Bundle is encrypted with your password using
-                        Argon2id & AES-256.</p>
-                </div>
-                <div class="text-gray-600 text-2xl">→</div>
-                <div class="flex-1 max-w-sm">
-                    <div class="text-brand-accent font-mono text-xl mb-2" data-i18n="how_step3_title">03. Upload</div>
-                    <p class="text-gray-400" data-i18n="how_step3_desc">The encrypted blob is securely uploaded to
-                        Vercel/GitHub storage.</p>
-                </div>
-            </div>
+    <section class="section" id="workflow">
+      <div class="section-title mono">Workflow</div>
+      <h2 class="section-heading">当前可用流程与下一阶段流程</h2>
+      <p class="section-copy">现在已经能完成本地导出和 URL 恢复。下一阶段把账号系统、数据库和每账号最多 3 个 Agent 的限制接进来。</p>
+      <div class="steps">
+        <div class="panel step">
+          <div class="eyebrow mono">Today</div>
+          <h3>导出本地记忆</h3>
+          <p>通过 `backup_local.py` 或 `backup_secure.py` 生成明文 JSON 或加密 `.blob`。</p>
         </div>
+        <div class="panel step">
+          <div class="eyebrow mono">Today</div>
+          <h3>上传到自管存储</h3>
+          <p>在账号系统完成之前，用户可以先把加密后的 `.blob` 上传到自己控制的对象存储或网盘。</p>
+        </div>
+        <div class="panel step">
+          <div class="eyebrow mono">Next</div>
+          <h3>网站账号与槽位</h3>
+          <p>网站将允许用户注册登录，并管理最多 3 个 Agent 槽位及其对应的记忆记录。</p>
+        </div>
+        <div class="panel step">
+          <div class="eyebrow mono">Next</div>
+          <h3>从云端恢复到本地</h3>
+          <p>用户选择目标记忆后下载密文，再在本地用自己的密码解密并恢复，不把明文交给云端。</p>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-12 text-center text-gray-600 text-sm border-t border-gray-900 mt-12">
-        <p>&copy; 2026 EternalClawMemory Project. Open Source & Forever Free.</p>
-        <div class="mt-4 space-x-4">
-            <a href="#" class="hover:text-white transition">GitHub</a>
-            <a href="#" class="hover:text-white transition">Discord</a>
-            <a href="#" class="hover:text-white transition">Docs</a>
-        </div>
+    <section class="section">
+      <div class="section-title mono">Links</div>
+      <h2 class="section-heading">关键入口</h2>
+      <div class="links-grid">
+        <a class="panel link-card" href="/getting-started">
+          <div class="eyebrow mono">Docs</div>
+          <h3>中文入门文档</h3>
+          <p>查看安装、备份、恢复、Openclaw 使用方法以及后续云同步规划。</p>
+        </a>
+        <a class="panel link-card" href="https://clawhub.ai/applied-energetic/eternalmemory-sync" target="_blank" rel="noreferrer">
+          <div class="eyebrow mono">Skill</div>
+          <h3>ClawHub 发布页</h3>
+          <p>`memory-sync` Skill 已发布。后续如果 Skill 行为变化，需要同步更新发布页。</p>
+        </a>
+        <a class="panel link-card" href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">
+          <div class="eyebrow mono">Code</div>
+          <h3>GitHub 仓库</h3>
+          <p>查看代码、数据库 schema、架构文档和路线图；CLI 已验证可访问 GitHub。</p>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div>Website: https://eternal-claw-memory-sync-2m748uwcd.vercel.app/</div>
+      <div style="margin-top:8px;">默认语言为中文。英文页面可通过右上角 EN 入口手动切换。</div>
     </footer>
-
-    <script>
-        const translations = {
-            en: {
-                nav_features: "Features",
-                nav_security: "Security",
-                nav_how_it_works: "How it Works",
-                hero_badge: "v1.0 Public Beta Now Available",
-                hero_title_1: "Give Your AI",
-                hero_title_2: "An",
-                hero_title_accent: "Eternal Soul",
-                hero_desc: "The secure, encrypted memory synchronization layer for Openclaw. <br>Backup your agent's personality, memories, and soul — forever.",
-                btn_get_started: "Download Skill",
-                btn_read_docs: "GitHub Repo",
-                demo_user_cmd: "Backup my memories, password \"secret123\"",
-                demo_agent_run: "Running `memory-sync` skill...",
-                demo_agent_done: "Done! Your soul is safe. Backup ID: #8X92A",
-                features_title: "Why Choose EternalClawMemory?",
-                feat1_title: "Zero-Trust Security",
-                feat1_desc: "We use military-grade <strong>AES-256-GCM</strong> encryption. Your password never leaves your device. Even we cannot read your agent's memories.",
-                feat2_title: "Instant Sync",
-                feat2_desc: "Migrating to a new PC? Just reinstall Openclaw, run the restore command, and your agent is back exactly as you left them.",
-                feat3_title: "Native Skill",
-                feat3_desc: "Integrated directly into Openclaw as a Skill. No complex CLI commands needed—just talk to your agent naturally.",
-                how_title: "How It Works",
-                how_step1_title: "01. Pack",
-                how_step1_desc: "Local script gathers your markdown memory files into a JSON bundle.",
-                how_step2_title: "02. Encrypt",
-                how_step2_desc: "Bundle is encrypted with your password using Argon2id & AES-256.",
-                how_step3_title: "03. Upload",
-                how_step3_desc: "The encrypted blob is securely uploaded to Vercel/GitHub storage."
-            },
-            zh: {
-                nav_features: "功能",
-                nav_security: "安全",
-                nav_how_it_works: "工作原理",
-                hero_badge: "v1.0 公测版现已发布",
-                hero_title_1: "赋予你的 AI",
-                hero_title_2: "一个",
-                hero_title_accent: "永恒的灵魂",
-                hero_desc: "Openclaw 专用的安全加密记忆同步层。<br>永久备份你智能体的个性、记忆与灵魂。",
-                btn_get_started: "下载技能",
-                btn_read_docs: "GitHub 仓库",
-                demo_user_cmd: "备份我的记忆，密码是 \"secret123\"",
-                demo_agent_run: "正在运行 `memory-sync` 技能...",
-                demo_agent_done: "完成！你的灵魂已安全备份。备份ID：#8X92A",
-                features_title: "为什么选择 EternalClawMemory？",
-                feat1_title: "零信任安全",
-                feat1_desc: "我们采用军用级 <strong>AES-256-GCM</strong> 加密。密码永远不会离开你的设备。即使我们也无法读取你智能体的记忆。",
-                feat2_title: "瞬间同步",
-                feat2_desc: "迁移到新电脑？只需重新安装 Openclaw，运行恢复命令，你的智能体就会恢复如初，就像从未离开过。",
-                feat3_title: "原生技能集成",
-                feat3_desc: "作为 Skill 直接集成到 Openclaw 中。无需复杂的命令行——只需自然地与你的智能体交谈。",
-                how_title: "工作原理",
-                how_step1_title: "01. 打包",
-                how_step1_desc: "本地脚本将你的 Markdown 记忆文件收集并打包成 JSON。",
-                how_step2_title: "02. 加密",
-                how_step2_desc: "使用 Argon2id 和 AES-256 算法，配合你的密码对数据包进行加密。",
-                how_step3_title: "03. 上传",
-                how_step3_desc: "加密后的数据块将被安全上传至 Vercel/GitHub 存储。",
-            }
-        };
-
-        let currentLang = 'en';
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
-            });
-            document.getElementById('lang-switch').innerText = lang === 'en' ? 'EN' : '中';
-        }
-
-        document.getElementById('lang-switch').addEventListener('click', () => {
-            const newLang = currentLang === 'en' ? 'zh' : 'en';
-            setLanguage(newLang);
-        });
-    </script>
+  </div>
 </body>
-
 </html>

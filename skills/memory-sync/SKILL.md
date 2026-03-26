@@ -1,57 +1,64 @@
 ---
 slug: memory-sync
 display_name: EternalClaw Memory Sync
-description: Securely backup and restore Openclaw agent memory from remote URLs using AES-256-GCM encryption.
+description: Backup and restore Openclaw memory locally or from encrypted remote blobs, with future cloud sync alignment.
 author: Applied-Energetic
-version: 1.0.0
-tags: [memory, sync, backup, encryption, agent-state]
+version: 1.2.0
+tags: [memory, sync, backup, restore, encryption, agent-state]
 license: MIT-0
 ---
 
 # EternalClaw Memory Sync
 
-This skill enables Openclaw agents to securely synchronize their memory state from a remote URL. It handles downloading, decrypting with AES-256-GCM, and restoring memory files to ensure seamless context continuity across environments.
+中文默认，英文简述见文末。
 
-## Capabilities
+## 当前能力
 
-- **Secure Restoration**: Fetch and decrypt memory blobs from a user-provided URL.
-- **Cross-Environment Sync**: Transfer agent context securely between different machines or sessions.
-- **Local Decryption**: Perform decryption locally using a password-derived key (Argon2id).
+- 本地加密备份
+- 从加密远程 URL 恢复
+- 与 EternalClawMemory 网站和后续云同步路线保持一致
 
-## Usage
+## 备份记忆
 
-This skill includes Python scripts that perform the actual restoration logic.
+在仓库根目录执行：
 
-### prerequisites
+```bash
+python scripts/backup_secure.py --password "<YOUR_PASSWORD>"
+```
 
-Ensure the following Python libraries are installed in your environment:
+它会读取配置中的记忆文件，在本地加密，并在 `backups/` 下生成 `.blob` 文件。
+
+## 从加密 URL 恢复
+
+```bash
+python skills/memory-sync/scripts/restore_secure.py --url "<YOUR_BACKUP_URL>" --password "<YOUR_PASSWORD>"
+```
+
+它会下载密文 blob，在本地解密，然后恢复记忆文件。
+
+## 依赖
 
 ```bash
 pip install cryptography requests argon2-cffi
 ```
 
-### Restore Memory
+## 典型 Openclaw 提示词
 
-To restore memory from a backup URL, execute the included script:
+- "Backup my current memory with password `secret123`."
+- "Restore my memory from this backup link with password `secret123`."
+- "Sync Agent 2 from my account."
 
-```bash
-# Execute from project root
-python skills/memory-sync/scripts/restore_secure.py --url "<YOUR_BACKUP_URL>" --password "<YOUR_PASSWORD>"
-```
+第三个例子对应未来的账号化云同步流程，仍需要后续网站和后端能力补齐。
 
-*Note: Replace `<YOUR_BACKUP_URL>` and `<YOUR_PASSWORD>` with your actual backup details.*
+## 安全说明
 
-## Implementation Details
+- 加密应在本地发生
+- 解密应在本地发生
+- 如果启用加密，云端只应接触密文
+- 如果 Skill 行为变化，请同步更新 ClawHub 发布页
 
-The skill relies on `scripts/restore_secure.py` (included in this package) to handle sensitive cryptographic operations.
+## English Summary
 
-1. **Download**: Fetches the encrypted blob from the URL.
-2. **Key Derivation**: Derives the decryption key using `Argon2id` and the provided password.
-3. **Decryption**: Decrypts the data using `AES-256-GCM` to ensure confidentiality and integrity.
-4. **Restoration**: Unpacks the memory files to the current workspace.
-
-## Included Files
-
-- `SKILL.md`: Documentation (this file).
-- `scripts/restore_secure.py`: Main restoration script.
-- `scripts/crypto_utils.py`: Shared encryption utilities.
+This skill helps Openclaw users back up memory locally with encryption and restore it
+from encrypted remote URLs. The longer-term product direction is account-based cloud
+sync, while keeping encryption and decryption on the client side.

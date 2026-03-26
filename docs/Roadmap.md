@@ -1,46 +1,89 @@
-# EternalClawMemory - 项目实施路线图 (Roadmap)
+# 路线图
 
-## 第一阶段：本地核心机制与安全 (Secure Core)
-目标：实现基于 Python 的本地加密备份与恢复工具。
+[English Version](Roadmap.en.md)
 
-- [x] **1.1. 安全算法库 (Security Lib)**
-  - 实现 `scripts/crypto_utils.py`：封装 AES-256-GCM + Argon2id。
-  - 确保加密/解密流程的正确性和安全性。
+## 当前目标
 
-- [ ] **1.2. JSON 打包与加密 (Packer)**
-  - 完善 `scripts/backup_secure.py`。
-  - 读取指定 Markdown 文件 -> JSON -> Crypt -> Blob。
+路线图围绕以下目标展开：
 
-- [ ] **1.3. 解密与还原 (Unpacker)**
-  - 完善 `scripts/restore_secure.py`。
-  - 从本地路径或 URL 获取 Blob -> Decrypt -> Restore Files。
+- 支持本地导出，可选加密或不加密
+- 支持上传密文到云端
+- 支持从本地文件、URL 或云账号恢复
+- 每个账号最多管理 3 个 Agent 记忆
+- 只要启用加密，解密就必须留在本地
 
-## 第二阶段：智能体 Skill 集成 (Agent Skills)
-目标：让 Openclaw 能够自主操作记忆备份。
+## Phase 0: 基础清理
 
-- [x] **2.1. Skill 文档编写**
-  - 创建 `skills/memory-sync/SKILL.md`。
-  - 定义 `restore_secure.py` 和 `backup_secure.py` 的自然语言调用接口。
+状态：进行中
 
-- [ ] **2.2. 本地测试**
-  - 在 VS Code 中安装 Skill。
-  - 测试命令："把记忆备份并设置密码为 123456"。
+- [x] 首页已上线
+- [x] Skill 已发布到 ClawHub
+- [x] 架构与路线图草案
+- [x] Getting Started 文档
+- [ ] 中英文文档和站点入口持续保持同步
 
-## 第三阶段：云端服务开发 (Cloud Service - Vercel)
-目标：搭建 Vercel 服务作为云端中转与管理界面。
+## Phase 1: 本地备份与恢复核心
 
-- [ ] **3.1. Next.js 项目初始化**
-  - 创建 `web/` 目录，初始化项目。
-  - 实现文件上传组件（接收 `.blob` 文件）。
+状态：部分完成
 
-- [ ] **3.2. GitHub 存储集成**
-  - API `/api/backup` (POST): 接收 Blob 并提交到 GitHub。
-  - API `/api/restore` (GET): 提供 Blob 的下载链接。
+- [x] 明文备份脚本
+- [x] 明文恢复脚本
+- [x] 加密工具模块
+- [x] 加密备份脚本
+- [x] 从 URL 恢复加密备份
+- [ ] 增强校验和错误处理
+- [ ] 增加自动化测试
+- [ ] 定义稳定备份格式版本
 
-## 第四阶段：全流程联调 (Integration)
-目标：实现 "本地加密 -> 云端存储 -> 异地恢复" 的闭环。
+## Phase 2: Openclaw Skill 工作流
 
-- [ ] **4.1. 跨设备测试**
-  - 在设备 A 上生成加密备份。
-  - 上传至 Vercel/GitHub。
-  - 在设备 B 上通过 URL + 密码恢复。
+状态：部分完成
+
+- [x] 发布 `memory-sync` Skill
+- [x] 封装恢复流程
+- [ ] 把备份流程完整写入 Skill 文档
+- [ ] 加入未来云账号流程说明
+- [ ] Skill 变更时同步重发 ClawHub
+
+## Phase 3: 云端账号系统
+
+状态：规划中
+
+- [ ] 注册
+- [ ] 登录 / 退出
+- [ ] 密码重置
+- [ ] 邮箱验证
+- [ ] 会话安全和限流
+- [ ] 账号状态管理
+
+## Phase 4: 数据库和存储
+
+状态：已开始设计
+
+- [x] PostgreSQL schema 初稿
+- [ ] ORM migration
+- [ ] Blob 存储接入
+- [ ] 三 Agent 限制落地
+- [ ] 密文上传下载链路
+
+## Phase 5: 云端记忆管理
+
+状态：规划中
+
+- [ ] 上传加密 blob
+- [ ] 按槽位列出记忆
+- [ ] 下载选中的密文
+- [ ] 版本替换和删除规则
+- [ ] 上传大小和类型校验
+
+## Phase 6: 网站产品界面
+
+状态：进行中
+
+- [x] 首页
+- [x] Getting Started
+- [x] 中英双语入口
+- [ ] 登录 / 注册页面
+- [ ] Dashboard
+- [ ] Agent 槽位管理
+- [ ] 上传和恢复引导页面

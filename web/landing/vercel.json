@@ -1,8 +1,24 @@
 {
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+  "rewrites": [
+    {
+      "source": "/en/getting-started",
+      "destination": "/getting-started.en.html"
+    },
+    {
+      "source": "/en",
+      "destination": "/index.en.html"
+    },
+    {
+      "source": "/getting-started",
+      "destination": "/getting-started.html"
+    },
+    {
+      "source": "/docs",
+      "destination": "/getting-started.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

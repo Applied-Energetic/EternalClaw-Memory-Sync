@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started | EternalClawMemory</title>
+  <style>
+    body { margin:0; font-family:system-ui, sans-serif; background:#f6efe6; color:#1f2430; }
+    a { color:inherit; text-decoration:none; }
+    .shell { width:min(980px, calc(100vw - 32px)); margin:0 auto; padding:24px 0 48px; }
+    .panel { background:rgba(255,255,255,.9); border:1px solid rgba(31,36,48,.1); border-radius:20px; padding:24px; margin-bottom:18px; }
+    .nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px; }
+    .links { display:flex; gap:16px; flex-wrap:wrap; color:#5b6575; font-size:14px; }
+    .lang { padding:10px 14px; border-radius:999px; border:1px solid rgba(15,118,110,.22); color:#0f766e; font-family:ui-monospace, monospace; }
+    pre { white-space:pre-wrap; background:#1f2430; color:#eef4fb; padding:16px; border-radius:16px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div>
+        <div style="color:#0f766e;font-family:ui-monospace, monospace;font-size:14px;">ECM // English docs</div>
+        <div style="font-size:28px;font-weight:800;margin-top:4px;">Getting Started</div>
+      </div>
+      <div class="links">
+        <a href="/en">Home</a>
+        <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://clawhub.ai/applied-energetic/eternalmemory-sync" target="_blank" rel="noreferrer">ClawHub Skill</a>
+        <a class="lang" href="/getting-started">中文</a>
+      </div>
+    </nav>
+    <section class="panel">
+      <h1>Getting Started</h1>
+      <p>EternalClawMemory currently supports local export, optional encryption, restore from URL, and an initial Openclaw skill workflow. The next phase adds registration, login, agent slots, and ciphertext-only cloud sync on Vercel.</p>
+      <h2>Install dependencies</h2>
+      <pre>pip install cryptography requests argon2-cffi</pre>
+      <h2>Export locally</h2>
+      <pre>python scripts/backup_local.py
+
+python scripts/backup_secure.py --password "your-password"</pre>
+      <h2>Restore</h2>
+      <pre>python scripts/restore_local.py backups/backup_YYYYMMDD_HHMMSS.json
+
+python scripts/restore_secure.py --url "https://example.com/backup.blob" --password "your-password"</pre>
+      <h2>Cloud direction</h2>
+      <p>The planned product flow is: register on the website, manage up to 3 agent slots, upload encrypted blobs, select a memory to restore, download ciphertext, then decrypt locally.</p>
+    </section>
+  </div>
+</body>
+</html>

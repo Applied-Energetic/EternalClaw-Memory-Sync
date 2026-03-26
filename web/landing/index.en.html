@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EternalClawMemory | Secure Memory Sync for Openclaw</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: "Space Grotesk", sans-serif; background: #081019; color: #eef6ff; }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(1100px, calc(100vw - 32px)); margin: 0 auto; padding: 22px 0 42px; }
+    .panel { background: rgba(9,18,28,.86); border: 1px solid rgba(126,160,191,.18); border-radius: 24px; padding: 24px; }
+    .nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:20px; }
+    .links { display:flex; gap:16px; flex-wrap:wrap; color:#9bb2c7; font-size:14px; }
+    .lang { padding: 10px 14px; border-radius: 999px; border:1px solid rgba(123,240,200,.28); color:#7bf0c8; font-family:"JetBrains Mono",monospace; }
+    .hero { display:grid; grid-template-columns: 1.15fr .85fr; gap:20px; }
+    .headline { font-size: clamp(36px, 6vw, 66px); line-height:1; margin:14px 0; }
+    .muted { color:#9bb2c7; line-height:1.8; }
+    .accent { color:#7bf0c8; }
+    .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
+    .btn { padding:14px 20px; border-radius:999px; font-weight:700; }
+    .btn-primary { background:#7bf0c8; color:#06211b; }
+    .btn-secondary { border:1px solid rgba(150,172,193,.26); }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div>
+        <div style="color:#7bf0c8;font-family:'JetBrains Mono',monospace;font-size:14px;">ECM // English</div>
+        <div style="font-size:28px;font-weight:800;margin-top:4px;">EternalClawMemory</div>
+      </div>
+      <div class="links">
+        <a href="/en/getting-started">Getting Started</a>
+        <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="lang" href="/">中文</a>
+      </div>
+    </nav>
+    <section class="hero">
+      <div class="panel">
+        <div style="color:#7bf0c8;font-family:'JetBrains Mono',monospace;font-size:13px;">Vercel deployed · ClawHub published · Backend design in progress</div>
+        <h1 class="headline">Turn Openclaw memory into a <span class="accent">portable, encrypted, restorable asset</span></h1>
+        <p class="muted">EternalClawMemory provides local export, optional client-side encryption, remote restore, and the foundation for future account-based cloud sync. Encryption and decryption stay local; the cloud stores ciphertext and metadata only.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="/en/getting-started">Open Getting Started</a>
+          <a class="btn btn-secondary" href="https://clawhub.ai/applied-energetic/eternalmemory-sync" target="_blank" rel="noreferrer">ClawHub Skill</a>
+          <a class="btn btn-secondary" href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">GitHub Repo</a>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0;">Current direction</h3>
+        <p class="muted">The project is moving from a secure local backup prototype toward an account-based ciphertext sync product, with up to 3 agent slots per account and a Vercel-managed backend.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started | EternalClawMemory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; font-family:"Noto Sans SC",sans-serif; background:#f5efe6; color:#1f2430; }
+    a { color:inherit; text-decoration:none; }
+    .shell { width:min(1040px, calc(100vw - 32px)); margin:0 auto; padding:24px 0 50px; }
+    .panel { background:rgba(255,255,255,.88); border:1px solid rgba(31,36,48,.1); border-radius:24px; padding:28px; box-shadow:0 18px 60px rgba(31,36,48,.08); }
+    .nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:24px; }
+    .links { display:flex; gap:16px; flex-wrap:wrap; color:#5b6575; font-size:14px; }
+    .lang { padding:10px 14px; border-radius:999px; border:1px solid rgba(15,118,110,.22); color:#0f766e; font-family:"JetBrains Mono",monospace; }
+    .hero { margin-bottom:22px; }
+    h1 { font-size:clamp(34px,6vw,58px); line-height:1; margin:16px 0 10px; letter-spacing:-.04em; }
+    h2 { margin:0 0 10px; font-size:28px; }
+    p, li { color:#5b6575; line-height:1.8; }
+    pre { margin:0; white-space:pre-wrap; background:#1f2430; color:#eef4fb; padding:18px; border-radius:18px; line-height:1.8; font-size:14px; font-family:"JetBrains Mono",monospace; }
+    .grid { display:grid; grid-template-columns:1.08fr .92fr; gap:18px; margin-bottom:22px; }
+    .steps, .cards { display:grid; gap:16px; }
+    .step, .card { padding:20px; border:1px solid rgba(31,36,48,.1); border-radius:18px; background:rgba(255,255,255,.72); }
+    .label { color:#d97706; font-size:12px; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; font-family:"JetBrains Mono",monospace; }
+    @media (max-width:900px) { .grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <div>
+        <div style="color:#0f766e;font-family:'JetBrains Mono',monospace;font-size:14px;">ECM // 中文文档</div>
+        <div style="font-size:28px;font-weight:800;margin-top:4px;">Getting Started</div>
+      </div>
+      <div class="links">
+        <a href="/">返回首页</a>
+        <a href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://clawhub.ai/applied-energetic/eternalmemory-sync" target="_blank" rel="noreferrer">ClawHub Skill</a>
+        <a class="lang" href="/en/getting-started">EN</a>
+      </div>
+    </nav>
+
+    <section class="panel hero">
+      <div style="color:#0f766e;font-family:'JetBrains Mono',monospace;font-size:13px;">For Openclaw users · Local-first encryption · Cloud ciphertext only</div>
+      <h1>从本地导出开始，逐步走向账号化云同步</h1>
+      <p>当前 EternalClawMemory 已支持本地导出、可选加密、URL 恢复和 Skill 初版使用。后续目标是在 Vercel 网站上提供注册、登录、Agent 槽位管理和密文同步能力。</p>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>1. 安装依赖</h2>
+        <p>当前核心脚本使用 Python，并依赖 `cryptography`、`requests` 和 `argon2-cffi`。</p>
+        <pre>pip install cryptography requests argon2-cffi</pre>
+
+        <h2 style="margin-top:24px;">2. 准备记忆文件</h2>
+        <p>当前脚本默认会尝试读取以下文件：</p>
+        <ul>
+          <li>`Agent.md`</li>
+          <li>`memory.md`</li>
+          <li>`Soul.md`</li>
+        </ul>
+
+        <h2 style="margin-top:24px;">3. 本地导出</h2>
+        <p>不加密导出：</p>
+        <pre>python scripts/backup_local.py</pre>
+        <p style="margin-top:16px;">加密导出：</p>
+        <pre>python scripts/backup_secure.py --password "your-password"</pre>
+      </section>
+
+      <section class="panel">
+        <h2>4. 导入与恢复</h2>
+        <p>从本地 JSON 恢复：</p>
+        <pre>python scripts/restore_local.py backups/backup_YYYYMMDD_HHMMSS.json</pre>
+        <p style="margin-top:16px;">从远程 URL 下载密文并在本地解密恢复：</p>
+        <pre>python scripts/restore_secure.py --url "https://example.com/backup.blob" --password "your-password"</pre>
+
+        <h2 style="margin-top:24px;">5. 在 Openclaw 中使用</h2>
+        <p>Skill 已发布在 ClawHub，可以通过自然语言触发备份或恢复。</p>
+        <ul>
+          <li>“Backup my current memory with password `secret123`.”</li>
+          <li>“Restore my memory from this link with password `secret123`.”</li>
+          <li>“Sync Agent 2 from my account.”</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="panel" style="margin-bottom:22px;">
+      <h2>6. 后续云同步规划</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="label">Step 01</div>
+          <strong>网站注册与登录</strong>
+          <p>用户在 Vercel 网站创建账号，后续逐步加入更完整的安全验证、登录保护与会话管理。</p>
+        </div>
+        <div class="step">
+          <div class="label">Step 02</div>
+          <strong>每账号最多 3 个 Agent 槽位</strong>
+          <p>一个账号可以管理三个独立 Agent 的记忆空间，既满足实际使用，也便于早期版本把模型和权限边界做扎实。</p>
+        </div>
+        <div class="step">
+          <div class="label">Step 03</div>
+          <strong>云端只存密文</strong>
+          <p>数据库保存用户、槽位和元数据，对象存储保存加密后的记忆包。明文与解密密码都留在本地。</p>
+        </div>
+        <div class="step">
+          <div class="label">Step 04</div>
+          <strong>双路径导入</strong>
+          <p>用户既可以手动上传本地文件导入，也可以网页登录后选择同步目标，再由本地客户端完成解密和恢复。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards" style="grid-template-columns:repeat(3,minmax(0,1fr));">
+      <a class="panel card" href="https://eternal-claw-memory-sync-2m748uwcd.vercel.app/" target="_blank" rel="noreferrer">
+        <div class="label">Website</div>
+        <strong>已部署站点</strong>
+        <p>默认入口已切换为中文，英文页面可手动进入。</p>
+      </a>
+      <a class="panel card" href="https://github.com/Applied-Energetic/EternalClaw-Memory-Sync" target="_blank" rel="noreferrer">
+        <div class="label">Repository</div>
+        <strong>源码与文档</strong>
+        <p>查看脚本、数据库 schema、架构设计和路线图。</p>
+      </a>
+      <a class="panel card" href="https://clawhub.ai/applied-energetic/eternalmemory-sync" target="_blank" rel="noreferrer">
+        <div class="label">Skill</div>
+        <strong>ClawHub 发布页</strong>
+        <p>如果后续我们修改 Skill 行为或说明文案，需要同步更新发布页。</p>
+      </a>
+    </section>
+  </div>
+</body>
+</html>
